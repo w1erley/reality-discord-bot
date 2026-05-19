@@ -3,7 +3,6 @@ from tortoise.models import Model
 
 
 class ReactionRoleConfig(Model):
-    pk = fields.IntField(pk=True)
     guild_id = fields.BigIntField()
     channel_id = fields.BigIntField()
     message_id = fields.BigIntField()

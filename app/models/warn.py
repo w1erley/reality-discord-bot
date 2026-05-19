@@ -3,7 +3,6 @@ from tortoise.models import Model
 
 
 class Warn(Model):
-    pk = fields.IntField(pk=True)
     warn_id = fields.IntField()
     user_id = fields.BigIntField()
     server_id = fields.BigIntField()
