@@ -1,17 +1,11 @@
-"""
-Copyright © Krypton 2019-Present - https://github.com/kkrypt0nn (https://krypton.ninja)
-Description:
-🐍 A simple template to start to code your own and personalized Discord bot in Python
-
-Version: 6.5.0
-"""
-
 import random
 
 import aiohttp
 import discord
 from discord.ext import commands
 from discord.ext.commands import Context
+
+from app.presentation.colors import EmbedColor
 
 
 class Choice(discord.ui.View):
@@ -66,7 +60,7 @@ class RockPaperScissors(discord.ui.Select):
         bot_choice = random.choice(list(choices.keys()))
         bot_choice_index = choices[bot_choice]
 
-        result_embed = discord.Embed(color=0xBEBEFE)
+        result_embed = discord.Embed(color=EmbedColor.PRIMARY)
         result_embed.set_author(
             name=interaction.user.name, icon_url=interaction.user.display_avatar.url
         )
@@ -74,13 +68,13 @@ class RockPaperScissors(discord.ui.Select):
         winner = (3 + user_choice_index - bot_choice_index) % 3
         if winner == 0:
             result_embed.description = f"**That's a draw!**\nYou've chosen {user_choice} and I've chosen {bot_choice}."
-            result_embed.colour = 0xF59E42
+            result_embed.colour = EmbedColor.WARNING
         elif winner == 1:
             result_embed.description = f"**You won!**\nYou've chosen {user_choice} and I've chosen {bot_choice}."
-            result_embed.colour = 0x57F287
+            result_embed.colour = EmbedColor.SUCCESS
         else:
             result_embed.description = f"**You lost!**\nYou've chosen {user_choice} and I've chosen {bot_choice}."
-            result_embed.colour = 0xE02B2B
+            result_embed.colour = EmbedColor.ERROR
 
         await interaction.response.edit_message(
             embed=result_embed, content=None, view=None
@@ -111,12 +105,12 @@ class Fun(commands.Cog, name="fun"):
             ) as request:
                 if request.status == 200:
                     data = await request.json()
-                    embed = discord.Embed(description=data["text"], color=0xD75BF4)
+                    embed = discord.Embed(description=data["text"], color=EmbedColor.INFO)
                 else:
                     embed = discord.Embed(
                         title="Error!",
                         description="There is something wrong with the API, please try again later",
-                        color=0xE02B2B,
+                        color=EmbedColor.ERROR,
                     )
                 await context.send(embed=embed)
 
@@ -130,19 +124,19 @@ class Fun(commands.Cog, name="fun"):
         :param context: The hybrid command context.
         """
         buttons = Choice()
-        embed = discord.Embed(description="What is your bet?", color=0xBEBEFE)
+        embed = discord.Embed(description="What is your bet?", color=EmbedColor.PRIMARY)
         message = await context.send(embed=embed, view=buttons)
         await buttons.wait()  # We wait for the user to click a button.
         result = random.choice(["heads", "tails"])
         if buttons.value == result:
             embed = discord.Embed(
                 description=f"Correct! You guessed `{buttons.value}` and I flipped the coin to `{result}`.",
-                color=0xBEBEFE,
+                color=EmbedColor.PRIMARY,
             )
         else:
             embed = discord.Embed(
                 description=f"Woops! You guessed `{buttons.value}` and I flipped the coin to `{result}`, better luck next time!",
-                color=0xE02B2B,
+                color=EmbedColor.ERROR,
             )
         await message.edit(embed=embed, view=None, content=None)
 

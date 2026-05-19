@@ -1,11 +1,3 @@
-"""
-Copyright © Krypton 2019-Present - https://github.com/kkrypt0nn (https://krypton.ninja)
-Description:
-🐍 A simple template to start to code your own and personalized Discord bot in Python
-
-Version: 6.5.0
-"""
-
 import platform
 import random
 
@@ -14,6 +6,8 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 from discord.ext.commands import Context
+
+from app.presentation.colors import EmbedColor
 
 
 class FeedbackForm(discord.ui.Modal, title="Feeedback"):
@@ -61,7 +55,7 @@ class General(commands.Cog, name="general"):
         embed = discord.Embed(
             title="Message without spoilers",
             description=message.content.replace("||", ""),
-            color=0xBEBEFE,
+            color=EmbedColor.PRIMARY,
         )
         if spoiler_attachment is not None:
             embed.set_image(url=attachment.url)
@@ -79,7 +73,7 @@ class General(commands.Cog, name="general"):
         """
         embed = discord.Embed(
             description=f"The ID of {user.mention} is `{user.id}`.",
-            color=0xBEBEFE,
+            color=EmbedColor.PRIMARY,
         )
         await interaction.response.send_message(embed=embed, ephemeral=True)
 
@@ -88,7 +82,7 @@ class General(commands.Cog, name="general"):
     )
     async def help(self, context: Context) -> None:
         embed = discord.Embed(
-            title="Help", description="List of available commands:", color=0xBEBEFE
+            title="Help", description="List of available commands:", color=EmbedColor.PRIMARY
         )
         for i in self.bot.cogs:
             if i == "owner" and not (await self.bot.is_owner(context.author)):
@@ -115,12 +109,8 @@ class General(commands.Cog, name="general"):
 
         :param context: The hybrid command context.
         """
-        embed = discord.Embed(
-            description="Used [Krypton's](https://krypton.ninja) template",
-            color=0xBEBEFE,
-        )
+        embed = discord.Embed(color=EmbedColor.PRIMARY)
         embed.set_author(name="Bot Information")
-        embed.add_field(name="Owner:", value="Krypton#7331", inline=True)
         embed.add_field(
             name="Python Version:", value=f"{platform.python_version()}", inline=True
         )
@@ -150,7 +140,7 @@ class General(commands.Cog, name="general"):
         roles = ", ".join(roles)
 
         embed = discord.Embed(
-            title="**Server Name:**", description=f"{context.guild}", color=0xBEBEFE
+            title="**Server Name:**", description=f"{context.guild}", color=EmbedColor.PRIMARY
         )
         if context.guild.icon is not None:
             embed.set_thumbnail(url=context.guild.icon.url)
@@ -176,7 +166,7 @@ class General(commands.Cog, name="general"):
         embed = discord.Embed(
             title="🏓 Pong!",
             description=f"The bot latency is {round(self.bot.latency * 1000)}ms.",
-            color=0xBEBEFE,
+            color=EmbedColor.PRIMARY,
         )
         await context.send(embed=embed)
 
@@ -192,27 +182,7 @@ class General(commands.Cog, name="general"):
         """
         embed = discord.Embed(
             description=f"Invite me by clicking [here]({self.bot.invite_link}).",
-            color=0xD75BF4,
-        )
-        try:
-            await context.author.send(embed=embed)
-            await context.send("I sent you a private message!")
-        except discord.Forbidden:
-            await context.send(embed=embed)
-
-    @commands.hybrid_command(
-        name="server",
-        description="Get the invite link of the discord server of the bot for some support.",
-    )
-    async def server(self, context: Context) -> None:
-        """
-        Get the invite link of the discord server of the bot for some support.
-
-        :param context: The hybrid command context.
-        """
-        embed = discord.Embed(
-            description=f"Join the support server for the bot by clicking [here](https://discord.gg/mTBrXyWxAF).",
-            color=0xD75BF4,
+            color=EmbedColor.INFO,
         )
         try:
             await context.author.send(embed=embed)
@@ -257,7 +227,7 @@ class General(commands.Cog, name="general"):
         embed = discord.Embed(
             title="**My Answer:**",
             description=f"{random.choice(answers)}",
-            color=0xBEBEFE,
+            color=EmbedColor.PRIMARY,
         )
         embed.set_footer(text=f"The question was: {question}")
         await context.send(embed=embed)
@@ -282,13 +252,13 @@ class General(commands.Cog, name="general"):
                     embed = discord.Embed(
                         title="Bitcoin price",
                         description=f"The current price is {data['bpi']['USD']['rate']} :dollar:",
-                        color=0xBEBEFE,
+                        color=EmbedColor.PRIMARY,
                     )
                 else:
                     embed = discord.Embed(
                         title="Error!",
                         description="There is something wrong with the API, please try again later",
-                        color=0xE02B2B,
+                        color=EmbedColor.ERROR,
                     )
                 await context.send(embed=embed)
 
@@ -309,7 +279,7 @@ class General(commands.Cog, name="general"):
         await interaction.response.send_message(
             embed=discord.Embed(
                 description="Thank you for your feedback, the owners have been notified about it.",
-                color=0xBEBEFE,
+                color=EmbedColor.PRIMARY,
             )
         )
 
@@ -318,7 +288,7 @@ class General(commands.Cog, name="general"):
             embed=discord.Embed(
                 title="New Feedback",
                 description=f"{interaction.user} (<@{interaction.user.id}>) has submitted a new feedback:\n```\n{feedback_form.answer}\n```",
-                color=0xBEBEFE,
+                color=EmbedColor.PRIMARY,
             )
         )
 

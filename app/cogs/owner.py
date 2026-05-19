@@ -1,15 +1,9 @@
-"""
-Copyright © Krypton 2019-Present - https://github.com/kkrypt0nn (https://krypton.ninja)
-Description:
-🐍 A simple template to start to code your own and personalized Discord bot in Python
-
-Version: 6.5.0
-"""
-
 import discord
 from discord import app_commands
 from discord.ext import commands
 from discord.ext.commands import Context
+
+from app.presentation.colors import EmbedColor
 
 
 class Owner(commands.Cog, name="owner"):
@@ -34,7 +28,7 @@ class Owner(commands.Cog, name="owner"):
             await context.bot.tree.sync()
             embed = discord.Embed(
                 description="Slash commands have been globally synchronized.",
-                color=0xBEBEFE,
+                color=EmbedColor.PRIMARY,
             )
             await context.send(embed=embed)
             return
@@ -43,12 +37,12 @@ class Owner(commands.Cog, name="owner"):
             await context.bot.tree.sync(guild=context.guild)
             embed = discord.Embed(
                 description="Slash commands have been synchronized in this guild.",
-                color=0xBEBEFE,
+                color=EmbedColor.PRIMARY,
             )
             await context.send(embed=embed)
             return
         embed = discord.Embed(
-            description="The scope must be `global` or `guild`.", color=0xE02B2B
+            description="The scope must be `global` or `guild`.", color=EmbedColor.ERROR
         )
         await context.send(embed=embed)
 
@@ -73,7 +67,7 @@ class Owner(commands.Cog, name="owner"):
             await context.bot.tree.sync()
             embed = discord.Embed(
                 description="Slash commands have been globally unsynchronized.",
-                color=0xBEBEFE,
+                color=EmbedColor.PRIMARY,
             )
             await context.send(embed=embed)
             return
@@ -82,12 +76,12 @@ class Owner(commands.Cog, name="owner"):
             await context.bot.tree.sync(guild=context.guild)
             embed = discord.Embed(
                 description="Slash commands have been unsynchronized in this guild.",
-                color=0xBEBEFE,
+                color=EmbedColor.PRIMARY,
             )
             await context.send(embed=embed)
             return
         embed = discord.Embed(
-            description="The scope must be `global` or `guild`.", color=0xE02B2B
+            description="The scope must be `global` or `guild`.", color=EmbedColor.ERROR
         )
         await context.send(embed=embed)
 
@@ -105,15 +99,15 @@ class Owner(commands.Cog, name="owner"):
         :param cog: The name of the cog to load.
         """
         try:
-            await self.bot.load_extension(f"cogs.{cog}")
+            await self.bot.load_extension(f"app.cogs.{cog}")
         except Exception:
             embed = discord.Embed(
-                description=f"Could not load the `{cog}` cog.", color=0xE02B2B
+                description=f"Could not load the `{cog}` cog.", color=EmbedColor.ERROR
             )
             await context.send(embed=embed)
             return
         embed = discord.Embed(
-            description=f"Successfully loaded the `{cog}` cog.", color=0xBEBEFE
+            description=f"Successfully loaded the `{cog}` cog.", color=EmbedColor.PRIMARY
         )
         await context.send(embed=embed)
 
@@ -131,15 +125,15 @@ class Owner(commands.Cog, name="owner"):
         :param cog: The name of the cog to unload.
         """
         try:
-            await self.bot.unload_extension(f"cogs.{cog}")
+            await self.bot.unload_extension(f"app.cogs.{cog}")
         except Exception:
             embed = discord.Embed(
-                description=f"Could not unload the `{cog}` cog.", color=0xE02B2B
+                description=f"Could not unload the `{cog}` cog.", color=EmbedColor.ERROR
             )
             await context.send(embed=embed)
             return
         embed = discord.Embed(
-            description=f"Successfully unloaded the `{cog}` cog.", color=0xBEBEFE
+            description=f"Successfully unloaded the `{cog}` cog.", color=EmbedColor.PRIMARY
         )
         await context.send(embed=embed)
 
@@ -157,15 +151,15 @@ class Owner(commands.Cog, name="owner"):
         :param cog: The name of the cog to reload.
         """
         try:
-            await self.bot.reload_extension(f"cogs.{cog}")
+            await self.bot.reload_extension(f"app.cogs.{cog}")
         except Exception:
             embed = discord.Embed(
-                description=f"Could not reload the `{cog}` cog.", color=0xE02B2B
+                description=f"Could not reload the `{cog}` cog.", color=EmbedColor.ERROR
             )
             await context.send(embed=embed)
             return
         embed = discord.Embed(
-            description=f"Successfully reloaded the `{cog}` cog.", color=0xBEBEFE
+            description=f"Successfully reloaded the `{cog}` cog.", color=EmbedColor.PRIMARY
         )
         await context.send(embed=embed)
 
@@ -180,7 +174,7 @@ class Owner(commands.Cog, name="owner"):
 
         :param context: The hybrid command context.
         """
-        embed = discord.Embed(description="Shutting down. Bye! :wave:", color=0xBEBEFE)
+        embed = discord.Embed(description="Shutting down. Bye! :wave:", color=EmbedColor.PRIMARY)
         await context.send(embed=embed)
         await self.bot.close()
 
@@ -212,7 +206,7 @@ class Owner(commands.Cog, name="owner"):
         :param context: The hybrid command context.
         :param message: The message that should be repeated by the bot.
         """
-        embed = discord.Embed(description=message, color=0xBEBEFE)
+        embed = discord.Embed(description=message, color=EmbedColor.PRIMARY)
         await context.send(embed=embed)
 
 

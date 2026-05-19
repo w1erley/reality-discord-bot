@@ -1,8 +1,11 @@
 FROM python:3.12.12-slim-trixie
 
-WORKDIR /bot
-COPY . /bot
+ENV PYTHONUNBUFFERED=1
 
-RUN python -m pip install -r requirements.txt
+WORKDIR /bot
+COPY requirements.txt /bot/
+RUN python -m pip install --no-cache-dir -r requirements.txt
+
+COPY . /bot
 
 ENTRYPOINT [ "python", "bot.py" ]
