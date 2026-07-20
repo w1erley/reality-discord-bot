@@ -52,4 +52,4 @@ app/
 ```
 
 New feature: add a model, repo, service, cog; register the service in
-`app/container.py` and the cog name in `app/cogs/__init__.py`.
+`app/container.py` and the cog name in `app/cogs/__init__.py`. Test
